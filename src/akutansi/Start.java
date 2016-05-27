@@ -188,6 +188,8 @@ public class Start extends javax.swing.JFrame {
             new entity.dao.DAOAkun(d).createTable();
             d.close();
             util.Work.saveConfig(host.getText(),Integer.parseInt(""+port.getValue()),name.getText(),user.getText(),pass.getText());
+            new makeAdmin(util.Work.currentDB()).setVisible(true);
+            this.setVisible(true);
         } catch (SQLException | FileNotFoundException ex) {
             JOptionPane.showMessageDialog(rootPane, ex.getMessage());
             util.db.hindar(ex);
