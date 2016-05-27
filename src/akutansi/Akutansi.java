@@ -5,6 +5,10 @@
  */
 package akutansi;
 
+import java.awt.EventQueue;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
 /**
  *
  * @author ai
@@ -15,7 +19,17 @@ public class Akutansi {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    UIManager.setLookAndFeel(new com.jtattoo.plaf.mint.MintLookAndFeel());
+                } catch (UnsupportedLookAndFeelException ex) {
+                    util.db.hindar(ex);
+                }java.io.File f=new java.io.File(System.getProperty("user.home")+"/.akutansi/config.oke");
+                if(!f.exists())new Start().setVisible(true);
+            }
+        });
     }
     
 }

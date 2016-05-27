@@ -14,7 +14,6 @@ import java.sql.SQLException;
  * @author ai
  */
 public class db {
-
     public static void hindar(Exception ex) {
         java.util.Date d=new java.util.Date();
         java.io.File f=new java.io.File(System.getProperty("user.home")+"/.akutansi/error/"+d.getDate()+"-"+d.getMonth()+"-"+d.getYear()+"_"+d.getHours()+":"+
