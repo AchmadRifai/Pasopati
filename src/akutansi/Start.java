@@ -186,6 +186,7 @@ public class Start extends javax.swing.JFrame {
             d.masuk("create database "+name.getText());
             d.setName(name.getText());
             new entity.dao.DAOAkun(d).createTable();
+            new entity.dao.DAOJejak(d).createTable();
             d.close();
             util.Work.saveConfig(host.getText(),Integer.parseInt(""+port.getValue()),name.getText(),user.getText(),pass.getText());
             new makeAdmin(util.Work.currentDB()).setVisible(true);

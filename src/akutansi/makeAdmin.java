@@ -6,7 +6,10 @@
 package akutansi;
 
 import java.awt.Color;
+import java.net.UnknownHostException;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import javax.swing.JOptionPane;
 
 /**
@@ -230,8 +233,11 @@ private util.db d;
     try { 
         entity.Akun a=new entity.Akun(akun.getText(), pass.getText(), nama.getText(), alamat.getText(),
                 jk.getItemAt(jk.getSelectedIndex()), true, false, false, false);
+        entity.Jejak j=new entity.Jejak(akun.getText(), "Menambahkan Diri", java.sql.Date.valueOf(LocalDate.now()), java.sql.Time.valueOf(LocalTime.now()),
+                java.net.InetAddress.getLocalHost().getHostAddress());
         new entity.dao.DAOAkun(d).insert(a);
-    } catch (SQLException ex) {
+        new entity.dao.DAOJejak(d).insert(j);
+    } catch (SQLException | UnknownHostException ex) {
         JOptionPane.showMessageDialog(rootPane, ex.getMessage());
         util.db.hindar(ex);
     }
