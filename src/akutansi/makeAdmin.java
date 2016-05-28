@@ -237,6 +237,8 @@ private util.db d;
                 java.net.InetAddress.getLocalHost().getHostAddress());
         new entity.dao.DAOAkun(d).insert(a);
         new entity.dao.DAOJejak(d).insert(j);
+        new entity.dao.DAOAset(d).insert(new entity.Aset("keluar", "Rekening pengeluaran", "lancar", 0));
+        new InitSaldo(d,a).setVisible(true);this.setVisible(false);
     } catch (SQLException | UnknownHostException ex) {
         JOptionPane.showMessageDialog(rootPane, ex.getMessage());
         util.db.hindar(ex);

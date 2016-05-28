@@ -17,8 +17,8 @@ public class Akun {
 
     public Akun(String akun,util.db d) throws SQLException {
         this.akun = akun;
-        java.sql.ResultSet rs=d.keluar("select*from akun where akun='"+akun+"'");
-        if(rs.next()){
+        java.sql.PreparedStatement ps=d.getPS("select*from akun where akun=?");ps.setString(1, akun);
+        java.sql.ResultSet rs=ps.executeQuery();if(rs.next()){
             pass=rs.getString("pass");
             nama=rs.getString("nama");
             alamat=rs.getString("alamat");
@@ -27,7 +27,7 @@ public class Akun {
             deleted=rs.getBoolean("deleted");
             blocked=rs.getBoolean("blocked");
             sesi=rs.getBoolean("sesi");
-        }rs.close();
+        }rs.close();ps.close();
     }
 
     public Akun(String akun, String pass, String nama, String alamat, String jk, boolean role, boolean deleted, boolean blocked, boolean sesi) {
