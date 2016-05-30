@@ -34,4 +34,18 @@ public class Work {
             d=new util.db(a.get(0), Integer.parseInt(a.get(1)), a.get(2), a.get(3), a.get(4));
         }return d;
     }
+
+    public static void createDb(String host,int port,String name,String user, String pass) throws SQLException {
+        db d=new db(host, port, "postgres", user, pass);
+        d.masuk("create database "+name);
+        d.setName(name);
+        new entity.dao.DAOAkun(d).createTable();
+        new entity.dao.DAOJejak(d).createTable();
+        new entity.dao.DAOAset(d).createTable();
+        new entity.dao.DAOTrans(d).createTable();
+        new entity.dao.DAOHutang(d).createTable();
+        new entity.dao.DAOMenyicil(d).createTable();
+        new entity.dao.DAOPiutang(d).createTable();
+        d.close();
+    }
 }

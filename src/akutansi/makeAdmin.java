@@ -197,10 +197,10 @@ private util.db d;
 
     private void akunKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_akunKeyReleased
     try {
-        java.sql.ResultSet rs=d.keluar("select akun='"+akun.getText()+"'as ojo from akun");if(rs.next()){
-            if(rs.getBoolean("ojo"))akun.setForeground(Color.red);
-            else akun.setForeground(Color.BLACK);
-        }else akun.setForeground(Color.red);rs.close();
+        java.sql.PreparedStatement ps=d.getPS("select akun from akun where akun=?");ps.setString(1, akun.getText());
+        java.sql.ResultSet rs=ps.executeQuery();if(rs.next())akun.setForeground(Color.red);
+        else akun.setForeground(Color.BLACK);
+        rs.close();ps.close();
     } catch (SQLException ex) {
         JOptionPane.showMessageDialog(rootPane, ex.getMessage());
         util.db.hindar(ex);akun.setForeground(Color.red);

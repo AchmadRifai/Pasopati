@@ -23,7 +23,7 @@ public class Akutansi {
             @Override
             public void run() {
                 try {
-                    UIManager.setLookAndFeel(new com.jtattoo.plaf.mint.MintLookAndFeel());
+                    UIManager.setLookAndFeel(new com.jtattoo.plaf.mcwin.McWinLookAndFeel());
                 } catch (UnsupportedLookAndFeelException ex) {
                     util.db.hindar(ex);
                 }java.io.File f=new java.io.File(System.getProperty("user.home")+"/.akutansi/config.oke");

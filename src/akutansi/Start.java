@@ -182,19 +182,13 @@ public class Start extends javax.swing.JFrame {
 
     private void sActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sActionPerformed
         try {
-            util.db d=new util.db(host.getText(), Integer.parseInt(""+port.getValue()), "postgres", user.getText(), pass.getText());
-            d.masuk("create database "+name.getText());
-            d.setName(name.getText());
-            new entity.dao.DAOAkun(d).createTable();
-            new entity.dao.DAOJejak(d).createTable();
-            d.close();
-            util.Work.saveConfig(host.getText(),Integer.parseInt(""+port.getValue()),name.getText(),user.getText(),pass.getText());
-            new makeAdmin(util.Work.currentDB()).setVisible(true);
-            this.setVisible(true);
+            util.Work.createDb(host.getText(),Integer.parseInt(""+port.getValue()),name.getText(),user.getText(),pass.getText());
+            util.Work.saveConfig(host.getText(), Integer.parseInt(""+port.getValue()), name.getText(), user.getText(), pass.getText());
+            new makeAdmin(util.Work.currentDB()).setVisible(true);this.setVisible(false);
         } catch (SQLException | FileNotFoundException ex) {
             JOptionPane.showMessageDialog(rootPane, ex.getMessage());
             util.db.hindar(ex);
-        }new java.io.File(System.getProperty("user.home")+"/.akutansi/config.oke").delete();
+        }
     }//GEN-LAST:event_sActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

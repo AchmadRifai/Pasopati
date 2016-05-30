@@ -5,7 +5,6 @@
  */
 package ui.operation.modal;
 
-import java.awt.Color;
 import java.net.UnknownHostException;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -16,14 +15,17 @@ import javax.swing.JOptionPane;
  *
  * @author ai
  */
-public class addModal extends javax.swing.JFrame {
+public class EditModal extends javax.swing.JFrame {
 private util.db d;
 private entity.Akun a;
+private entity.Aset aset;
     /**
-     * Creates new form addModal
+     * Creates new form EditModal
      */
-    public addModal(util.db db,entity.Akun akun) {
-        a=akun;d=db;
+    public EditModal(util.db db,entity.Akun akun,entity.Aset sa) {
+        aset=sa;
+        d=db;
+        a=akun;
         initComponents();
     }
 
@@ -40,18 +42,21 @@ private entity.Akun a;
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        init = new javax.swing.JSpinner();
+        kode = new javax.swing.JTextField();
+        tipe = new javax.swing.JComboBox<>();
+        jum = new javax.swing.JSpinner();
         jScrollPane1 = new javax.swing.JScrollPane();
         ket = new javax.swing.JTextArea();
-        tipe = new javax.swing.JComboBox<>();
-        kode = new javax.swing.JTextField();
         s = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Add Aset");
+        setTitle("Editing Aset Data");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
+            }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
             }
         });
 
@@ -63,10 +68,20 @@ private entity.Akun a;
 
         jLabel4.setText("Ket");
 
-        init.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
-        init.addChangeListener(new javax.swing.event.ChangeListener() {
+        kode.setEditable(false);
+        kode.setEnabled(false);
+
+        tipe.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "lancar", "tetap" }));
+        tipe.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                tipeItemStateChanged(evt);
+            }
+        });
+
+        jum.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
+        jum.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                initStateChanged(evt);
+                jumStateChanged(evt);
             }
         });
 
@@ -78,19 +93,6 @@ private entity.Akun a;
             }
         });
         jScrollPane1.setViewportView(ket);
-
-        tipe.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "lancar", "tetap" }));
-        tipe.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                tipeItemStateChanged(evt);
-            }
-        });
-
-        kode.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                kodeKeyReleased(evt);
-            }
-        });
 
         s.setText("SAVE");
         s.setEnabled(false);
@@ -108,17 +110,23 @@ private entity.Akun a;
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel1))
-                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane1)
-                            .addComponent(init)
-                            .addComponent(tipe, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(kode))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel1)
+                                    .addComponent(jLabel2))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(kode)
+                                    .addComponent(tipe, 0, 275, Short.MAX_VALUE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel4))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jum)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE))))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(s, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -137,7 +145,7 @@ private entity.Akun a;
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(init, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jum, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
@@ -151,50 +159,9 @@ private entity.Akun a;
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void kodeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_kodeKeyReleased
-    try {
-        java.sql.PreparedStatement ps=d.getPS("select kode=? as oke from aset");ps.setString(1, kode.getText());
-        java.sql.ResultSet rs=ps.executeQuery();if(rs.next()){
-            if(rs.getBoolean("oke"))kode.setForeground(Color.red);
-            else kode.setForeground(Color.BLACK);
-        }else kode.setForeground(Color.red);
-        rs.close();ps.close();
-    } catch (SQLException ex) {
-        JOptionPane.showMessageDialog(rootPane, ex.getMessage());
-        util.db.hindar(ex);
-    }refresh();
-    }//GEN-LAST:event_kodeKeyReleased
-
-    private void tipeItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_tipeItemStateChanged
-        refresh();
-    }//GEN-LAST:event_tipeItemStateChanged
-
-    private void initStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_initStateChanged
-        refresh();
-    }//GEN-LAST:event_initStateChanged
-
-    private void ketKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ketKeyReleased
-        refresh();
-    }//GEN-LAST:event_ketKeyReleased
-
-    private void sActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sActionPerformed
-    try {
-        entity.Aset aset=new entity.Aset(kode.getText(), ket.getText(), tipe.getItemAt(tipe.getSelectedIndex()),(int)init.getValue());
-        entity.Jejak j=new entity.Jejak(a.getAkun(), "Inisialisasi "+kode.getText(), java.sql.Date.valueOf(LocalDate.now()), java.sql.Time.valueOf(LocalTime.now()),
-                java.net.InetAddress.getLocalHost().getHostAddress());
-        new entity.dao.DAOAset(d).insert(aset);new entity.dao.DAOJejak(d).insert(j);
-        writeTrans();
-        if(!a.isSesi()&&a.isRole())new akutansi.InitSaldo(d, a).setVisible(true);
-        this.setVisible(false);
-    } catch (UnknownHostException | SQLException ex) {
-        JOptionPane.showMessageDialog(rootPane, ex.getMessage());
-        util.db.hindar(ex);
-    }
-    }//GEN-LAST:event_sActionPerformed
-
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
     try {
-        new entity.dao.DAOJejak(d).insert(new entity.Jejak(a.getAkun(), "Membatalkan penambahan aset", java.sql.Date.valueOf(LocalDate.now()),
+        new entity.dao.DAOJejak(d).insert(new entity.Jejak(a.getAkun(), "Membatalkan perubahan data aset "+aset.getKode(), java.sql.Date.valueOf(LocalDate.now()),
                 java.sql.Time.valueOf(LocalTime.now()),java.net.InetAddress.getLocalHost().getHostAddress()));
     } catch (SQLException | UnknownHostException ex) {
         JOptionPane.showMessageDialog(rootPane, ex.getMessage());
@@ -203,13 +170,46 @@ private entity.Akun a;
         this.setVisible(false);
     }//GEN-LAST:event_formWindowClosing
 
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        kode.setText(aset.getKode());
+        jum.setValue(aset.getJum());
+        tipe.setSelectedItem(aset.getTipe());
+        ket.setText(aset.getKet());
+    }//GEN-LAST:event_formWindowOpened
+
+    private void tipeItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_tipeItemStateChanged
+        refresh();
+    }//GEN-LAST:event_tipeItemStateChanged
+
+    private void jumStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jumStateChanged
+        refresh();
+    }//GEN-LAST:event_jumStateChanged
+
+    private void ketKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ketKeyReleased
+        refresh();
+    }//GEN-LAST:event_ketKeyReleased
+
+    private void sActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sActionPerformed
+    try {
+        new entity.dao.DAOJejak(d).insert(new entity.Jejak(a.getAkun(), "Mengubah data aset "+aset.getKode(), java.sql.Date.valueOf(LocalDate.now()),
+                java.sql.Time.valueOf(LocalTime.now()),java.net.InetAddress.getLocalHost().getHostAddress()));
+        if(Long.parseLong(""+jum.getValue())!=aset.getJum())writeTrans();
+        changer();
+        if(!a.isSesi()&&a.isRole())new akutansi.InitSaldo(d, a).setVisible(true);
+        this.setVisible(false);
+    } catch (SQLException | UnknownHostException ex) {
+        JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+        util.db.hindar(ex);
+    }
+    }//GEN-LAST:event_sActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JSpinner init;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSpinner jum;
     private javax.swing.JTextArea ket;
     private javax.swing.JTextField kode;
     private javax.swing.JButton s;
@@ -217,14 +217,23 @@ private entity.Akun a;
     // End of variables declaration//GEN-END:variables
 
     private void refresh() {
-        s.setEnabled(!kode.getText().isEmpty()&&!ket.getText().isEmpty()&&Color.BLACK==kode.getForeground());
+        s.setEnabled(!ket.getText().isEmpty());
     }
 
     private void writeTrans() throws SQLException {
-        entity.Trans t=new entity.Trans("",kode.getText(),"Initial Modal "+kode.getText(),java.sql.Date.valueOf(LocalDate.now()),java.sql.Time.valueOf(LocalTime.now()),
-                (int)init.getValue(),a.getAkun());
-        t.setKode(kode.getText()+"_"+a.getAkun()+"_"+t.getTgl().getDate()+"-"+t.getTgl().getMonth()+"-"+t.getTgl().getYear()+"_"+t.getJam().getHours()+":"+
-        t.getJam().getMinutes()+":"+t.getJam().getSeconds());
-        new entity.dao.DAOTrans(d).insert(t);
+        for(entity.Trans t:new entity.dao.DAOTrans(d).getData())if(aset.getKode().equals(t.getKe())){
+            entity.Trans t1=new entity.Trans(t.getKode(), d);
+            t1.setJum((int)jum.getValue());
+            new entity.dao.DAOTrans(d).update(t, t1);
+            break;
+        }
+    }
+
+    private void changer() throws SQLException {
+        entity.Aset edit=new entity.Aset(aset.getKode(), d);
+        edit.setJum((int)jum.getValue());
+        edit.setKet(ket.getText());
+        edit.setTipe(tipe.getItemAt(tipe.getSelectedIndex()));
+        new entity.dao.DAOAset(d).update(aset, edit);
     }
 }
