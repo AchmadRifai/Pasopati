@@ -32,7 +32,10 @@ public class Akutansi {
                 }java.io.File f=new java.io.File(System.getProperty("user.home")+"/.akutansi/config.oke");
                 if(f.exists()){
                     java.io.File f1=new java.io.File(System.getProperty("user.home")+"/.akutansi/config.user");try {
-                        if(!f1.exists())new ui.Login(util.Work.currentDB()).setVisible(true);
+                        if(f1.exists()){
+                            entity.Akun a=util.Work.currentAccount(util.Work.currentDB());
+                            if(a.isRole())new ui.Admin(util.Work.currentDB(), a).setVisible(true);
+                        }else new ui.Login(util.Work.currentDB()).setVisible(true);
                     } catch (FileNotFoundException | SQLException ex) {
                         JOptionPane.showMessageDialog(null, ex.getMessage());
                         util.db.hindar(ex);

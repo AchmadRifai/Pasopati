@@ -5,8 +5,12 @@
  */
 package util;
 
+import entity.Akun;
 import java.io.FileNotFoundException;
+import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.Month;
 
 /**
  *
@@ -56,5 +60,24 @@ public class Work {
         java.io.PrintWriter o=new java.io.PrintWriter(f);
         o.print(akun);
         o.close();
+    }
+
+    public static Akun currentAccount(util.db d) throws FileNotFoundException, SQLException {
+        java.io.File f=new java.io.File(System.getProperty("user.home")+"/.akutansi/config.user");
+        java.util.Scanner i=new java.util.Scanner(f);
+        java.util.ArrayList<String>a=new java.util.ArrayList();
+        while(i.hasNextLine())a.add(i.nextLine());
+        Akun akun=new Akun(a.get(0),d);
+        i.close();
+        return akun;
+    }
+
+    public static java.util.ArrayList<Date> getAllDate() {
+        java.util.ArrayList<Date>a=new java.util.ArrayList();
+        Date tgl=Date.valueOf(LocalDate.now()),cpr=Date.valueOf(LocalDate.of(2000, Month.JANUARY, 1));
+        while(tgl.equals(cpr)){
+            a.add(tgl);
+            tgl=Date.valueOf(tgl.toLocalDate().minusDays(1));
+        }return a;
     }
 }

@@ -9,6 +9,9 @@ import java.net.UnknownHostException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.Month;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -36,6 +39,16 @@ private entity.Akun a;
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jToolBar1 = new javax.swing.JToolBar();
+        jButton1 = new javax.swing.JButton();
+        jTabbedPane2 = new javax.swing.JTabbedPane();
+        jPanel1 = new javax.swing.JPanel();
+        ja = new javax.swing.JComboBox<>();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblJejak = new javax.swing.JTable();
+        tglJejak = new javax.swing.JComboBox<>();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Admin Dasboard For ");
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -47,15 +60,101 @@ private entity.Akun a;
             }
         });
 
+        jToolBar1.setRollover(true);
+
+        jButton1.setText("LOGOUT");
+        jButton1.setFocusable(false);
+        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(jButton1);
+
+        jTabbedPane1.addTab("HOME", jToolBar1);
+
+        ja.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pilih Satu :" }));
+        ja.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jaItemStateChanged(evt);
+            }
+        });
+
+        tblJejak.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Kegiatan", "Jam", "IP"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Object.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(tblJejak);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 828, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(ja, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tglJejak, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tglJejak, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jTabbedPane2.addTab("JEJAK", jPanel1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jTabbedPane2)
+                    .addComponent(jTabbedPane1))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTabbedPane2)
+                .addContainerGap())
         );
 
         pack();
@@ -64,6 +163,7 @@ private entity.Akun a;
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         this.setTitle(this.getTitle()+a.getNama());
+        for(java.sql.Date tgl:util.Work.getAllDate())tglJejak.addItem(tgl);
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -89,13 +189,30 @@ private entity.Akun a;
         }else takok();
     }//GEN-LAST:event_formWindowClosing
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        this.formWindowClosing(null);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jaItemStateChanged
+    try {
+        if(!"Pilih Satu :".equals(ja.getSelectedItem())&&null!=ja.getSelectedItem()){
+            javax.swing.table.DefaultTableModel m=(javax.swing.table.DefaultTableModel) tblJejak.getModel();
+            for(int x=m.getRowCount()-1;x>=0;x--)m.removeRow(x);
+            java.sql.PreparedStatement ps=d.getPS("select keg,jam,dari from jejak where akun=? and tgl=? order by jam");
+            ps.setString(1, ja.getSelectedItem().toString());
+        }
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+        util.db.hindar(ex);
+    }
+    }//GEN-LAST:event_jaItemStateChanged
+
     private void refresh() throws SQLException, InterruptedException {
-        a=new entity.Akun(a.getAkun(), d);
-        if(!a.isSesi()){
+        a=new entity.Akun(a.getAkun(), d);if(!a.isSesi()&&a.isBlocked()&&a.isDeleted()&&!a.isRole()){
             JOptionPane.showMessageDialog(rootPane, "Good bye!");
             new Login(d).setVisible(true);
             this.setVisible(false);
-        }
+        }jejak();
         Thread.sleep(5000);
     }
 
@@ -124,5 +241,27 @@ private entity.Akun a;
                 this.setVisible(false);
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTabbedPane jTabbedPane2;
+    private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JComboBox<String> ja;
+    private javax.swing.JTable tblJejak;
+    private javax.swing.JComboBox<java.sql.Date> tglJejak;
     // End of variables declaration//GEN-END:variables
+
+    private void jejak() throws SQLException {
+        if(!"Pilih Satu :".equals(ja.getSelectedItem())&&null!=ja.getSelectedItem()){
+            javax.swing.table.DefaultTableModel m=(javax.swing.table.DefaultTableModel) tblJejak.getModel();
+            for(int x=m.getRowCount()-1;x>=0;x--)m.removeRow(x);
+        }else{
+            ja.removeAllItems();
+            ja.addItem("Pilih Satu :");
+            for(entity.Akun sa:new entity.dao.DAOAkun(d).getData())ja.addItem(sa.getAkun());
+            javax.swing.table.DefaultTableModel m=(javax.swing.table.DefaultTableModel) tblJejak.getModel();
+            for(int x=m.getRowCount()-1;x>=0;x--)m.removeRow(x);
+        }
+    }
 }
