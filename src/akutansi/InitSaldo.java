@@ -86,6 +86,11 @@ private entity.Aset sa;
 
         n.setText("NEXT");
         n.setEnabled(false);
+        n.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nActionPerformed(evt);
+            }
+        });
 
         da.setText("Hapus");
         da.setEnabled(false);
@@ -202,6 +207,11 @@ private entity.Aset sa;
         util.db.hindar(ex);
     }
     }//GEN-LAST:event_uaActionPerformed
+
+    private void nActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nActionPerformed
+        new ui.Login(d).setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_nActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton da;

@@ -46,6 +46,15 @@ public class Work {
         new entity.dao.DAOHutang(d).createTable();
         new entity.dao.DAOMenyicil(d).createTable();
         new entity.dao.DAOPiutang(d).createTable();
+        new entity.dao.DAOCicilan(d).createTable();
         d.close();
+    }
+
+    public static void saveUser(String akun) throws FileNotFoundException {
+        java.io.File f=new java.io.File(System.getProperty("user.home")+"/.akutansi/config.user");
+        if(!f.getParentFile().exists())f.getParentFile().mkdirs();
+        java.io.PrintWriter o=new java.io.PrintWriter(f);
+        o.print(akun);
+        o.close();
     }
 }
