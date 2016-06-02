@@ -71,13 +71,4 @@ public class Work {
         i.close();
         return akun;
     }
-
-    public static java.util.ArrayList<Date> getAllDate() {
-        java.util.ArrayList<Date>a=new java.util.ArrayList();
-        Date tgl=Date.valueOf(LocalDate.now()),cpr=Date.valueOf(LocalDate.of(2000, Month.JANUARY, 1));
-        while(tgl.equals(cpr)){
-            a.add(tgl);
-            tgl=Date.valueOf(tgl.toLocalDate().minusDays(1));
-        }return a;
-    }
 }

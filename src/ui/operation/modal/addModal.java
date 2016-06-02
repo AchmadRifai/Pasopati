@@ -185,6 +185,7 @@ private entity.Akun a;
         new entity.dao.DAOAset(d).insert(aset);new entity.dao.DAOJejak(d).insert(j);
         writeTrans();
         if(!a.isSesi()&&a.isRole())new akutansi.InitSaldo(d, a).setVisible(true);
+        else if(a.isSesi()&&a.isRole())new ui.Admin(d, a).setVisible(true);
         this.setVisible(false);
     } catch (UnknownHostException | SQLException ex) {
         JOptionPane.showMessageDialog(rootPane, ex.getMessage());

@@ -9,7 +9,6 @@ import java.net.UnknownHostException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.Month;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -20,7 +19,8 @@ import javax.swing.JOptionPane;
  */
 public class Admin extends javax.swing.JFrame {
 private util.db d;
-private entity.Akun a;
+private entity.Akun a,sa;
+private entity.Aset aset;
     /**
      * Creates new form Admin
      */
@@ -42,15 +42,29 @@ private entity.Akun a;
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jToolBar1 = new javax.swing.JToolBar();
         jButton1 = new javax.swing.JButton();
+        jToolBar2 = new javax.swing.JToolBar();
+        jButton2 = new javax.swing.JButton();
+        eak = new javax.swing.JButton();
+        hak = new javax.swing.JButton();
+        jToolBar3 = new javax.swing.JToolBar();
+        jButton3 = new javax.swing.JButton();
+        ea = new javax.swing.JButton();
+        has = new javax.swing.JButton();
         jTabbedPane2 = new javax.swing.JTabbedPane();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblAkun = new javax.swing.JTable();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tblAset = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         ja = new javax.swing.JComboBox<>();
+        tglJejak = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblJejak = new javax.swing.JTable();
-        tglJejak = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Admin Dasboard For ");
+        setMaximumSize(new java.awt.Dimension(2147, 2147));
+        setSize(new java.awt.Dimension(2147, 2147));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
@@ -75,10 +89,158 @@ private entity.Akun a;
 
         jTabbedPane1.addTab("HOME", jToolBar1);
 
+        jToolBar2.setRollover(true);
+
+        jButton2.setText("ADD");
+        jButton2.setFocusable(false);
+        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        jToolBar2.add(jButton2);
+
+        eak.setText("EDIT");
+        eak.setEnabled(false);
+        eak.setFocusable(false);
+        eak.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        eak.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        eak.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                eakActionPerformed(evt);
+            }
+        });
+        jToolBar2.add(eak);
+
+        hak.setText("HAPUS");
+        hak.setEnabled(false);
+        hak.setFocusable(false);
+        hak.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        hak.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        hak.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                hakActionPerformed(evt);
+            }
+        });
+        jToolBar2.add(hak);
+
+        jTabbedPane1.addTab("AKUN", jToolBar2);
+
+        jToolBar3.setRollover(true);
+
+        jButton3.setText("ADD");
+        jButton3.setFocusable(false);
+        jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton3.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        jToolBar3.add(jButton3);
+
+        ea.setText("EDIT");
+        ea.setEnabled(false);
+        ea.setFocusable(false);
+        ea.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        ea.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        ea.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                eaActionPerformed(evt);
+            }
+        });
+        jToolBar3.add(ea);
+
+        has.setText("HAPUS");
+        has.setEnabled(false);
+        has.setFocusable(false);
+        has.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        has.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        has.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                hasActionPerformed(evt);
+            }
+        });
+        jToolBar3.add(has);
+
+        jTabbedPane1.addTab("ASET", jToolBar3);
+
+        tblAkun.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Kode", "Nama", "Alamat", "Gender", "Role", "Blocked", "Masuk"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.Boolean.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblAkun.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblAkunMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tblAkun);
+
+        jTabbedPane2.addTab("Akun", jScrollPane2);
+
+        tblAset.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Kode", "Ket", "Jumlah", "Tipe"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.Long.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblAset.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblAsetMouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(tblAset);
+
+        jTabbedPane2.addTab("ASET", jScrollPane3);
+
         ja.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pilih Satu :" }));
         ja.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 jaItemStateChanged(evt);
+            }
+        });
+
+        tglJejak.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                tglJejakItemStateChanged(evt);
             }
         });
 
@@ -114,13 +276,12 @@ private entity.Akun a;
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 828, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1126, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(ja, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(ja, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tglJejak, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addComponent(tglJejak, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -130,8 +291,7 @@ private entity.Akun a;
                     .addComponent(ja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tglJejak, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 334, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("JEJAK", jPanel1);
@@ -153,7 +313,7 @@ private entity.Akun a;
                 .addContainerGap()
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane2)
+                .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -162,9 +322,13 @@ private entity.Akun a;
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        this.setTitle(this.getTitle()+a.getNama());
-        for(java.sql.Date tgl:util.Work.getAllDate())tglJejak.addItem(tgl);
-        new Thread(new Runnable() {
+        this.setTitle(this.getTitle()+a.getNama());try {
+        java.sql.ResultSet rs=d.keluar("select distinct tgl from jejak order by tgl desc");
+        while(rs.next())tglJejak.addItem(rs.getDate("tgl"));rs.close();
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+        util.db.hindar(ex);
+    }new Thread(new Runnable() {
             @Override
             public void run() {
                 while(isVisible())try {
@@ -178,7 +342,7 @@ private entity.Akun a;
     }//GEN-LAST:event_formWindowOpened
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        java.io.File f=new java.io.File(System.getProperty("user.home")+"/.akuntasi/config.user");
+        java.io.File f=new java.io.File(System.getProperty("user.home")+"/.akutansi/config.user");
         if(!f.exists()){
             try {
                 metu();
@@ -193,26 +357,142 @@ private entity.Akun a;
         this.formWindowClosing(null);
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jaItemStateChanged
-    try {
-        if(!"Pilih Satu :".equals(ja.getSelectedItem())&&null!=ja.getSelectedItem()){
-            javax.swing.table.DefaultTableModel m=(javax.swing.table.DefaultTableModel) tblJejak.getModel();
-            for(int x=m.getRowCount()-1;x>=0;x--)m.removeRow(x);
-            java.sql.PreparedStatement ps=d.getPS("select keg,jam,dari from jejak where akun=? and tgl=? order by jam");
-            ps.setString(1, ja.getSelectedItem().toString());
+    private void tblAkunMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblAkunMouseClicked
+        int s=tblAkun.getSelectedRow();
+        boolean b=tblAkun.isRowSelected(s);if(b){
+            try {
+                sa=new entity.Akun(""+tblAkun.getValueAt(s, 0), d);
+                hak.setEnabled(true);
+                eak.setEnabled(true);
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+                util.db.hindar(ex);
+            }
         }
-    } catch (SQLException ex) {
+    }//GEN-LAST:event_tblAkunMouseClicked
+
+    private void hakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hakActionPerformed
+        int x=JOptionPane.showConfirmDialog(rootPane, "Apa anda ingin menghapus "+sa.getAkun()+"?", "HAPUS?", JOptionPane.YES_NO_OPTION);
+        if(x==JOptionPane.YES_OPTION){
+            try {
+                new entity.dao.DAOJejak(d).insert(new entity.Jejak(a.getAkun(), "Menghapus akun "+sa.getAkun(), java.sql.Date.valueOf(LocalDate.now()),
+                        java.sql.Time.valueOf(LocalTime.now()),java.net.InetAddress.getLocalHost().getHostAddress()));
+                new entity.dao.DAOAkun(d).delete(sa);
+                jejak();
+                akun();
+            } catch (SQLException | UnknownHostException ex) {
+                JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+                util.db.hindar(ex);
+            }
+        }hak.setEnabled(false);eak.setEnabled(false);
+    }//GEN-LAST:event_hakActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    try {
+        new entity.dao.DAOJejak(d).insert(new entity.Jejak(a.getAkun(), "Akan menambah AKun baru", java.sql.Date.valueOf(LocalDate.now()),
+                java.sql.Time.valueOf(LocalTime.now()),java.net.InetAddress.getLocalHost().getHostAddress()));
+        new ui.operation.akun.AddAkun(a, d).setVisible(true);
+        this.setVisible(false);
+    } catch (SQLException | UnknownHostException ex) {
         JOptionPane.showMessageDialog(rootPane, ex.getMessage());
         util.db.hindar(ex);
     }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void eakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eakActionPerformed
+    try {
+        new entity.dao.DAOJejak(d).insert(new entity.Jejak(a.getAkun(), "Akan mengubah "+sa.getAkun(), java.sql.Date.valueOf(LocalDate.now()),
+                java.sql.Time.valueOf(LocalTime.now()),java.net.InetAddress.getLocalHost().getHostAddress()));
+        new ui.operation.akun.EditAkun(d, a, sa).setVisible(true);
+        this.setVisible(false);
+    } catch (SQLException | UnknownHostException ex) {
+        JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+        util.db.hindar(ex);
+    }
+    }//GEN-LAST:event_eakActionPerformed
+
+    private void tblAsetMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblAsetMouseClicked
+        int x=tblAset.getSelectedRow();
+        boolean b=tblAset.isRowSelected(x);if(b){
+            try {
+                aset=new entity.Aset(""+tblAset.getValueAt(x, 0), d);
+                has.setEnabled(true);
+                ea.setEnabled(true);
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+                util.db.hindar(ex);
+            }
+        }
+    }//GEN-LAST:event_tblAsetMouseClicked
+
+    private void hasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hasActionPerformed
+        int x=JOptionPane.showConfirmDialog(rootPane, "Apa anda ingin menghapus aset "+aset.getKode()+"?", "HAPUS?", JOptionPane.YES_NO_OPTION);
+        if(x==JOptionPane.YES_OPTION){
+            try {
+                new entity.dao.DAOAset(d).delete(aset);
+                new entity.dao.DAOJejak(d).insert(new entity.Jejak(a.getAkun(), "Telah menghapus aset "+aset.getKode(),java.sql.Date.valueOf(LocalDate.now()),
+                        java.sql.Time.valueOf(LocalTime.now()),java.net.InetAddress.getLocalHost().getHostAddress()));
+                aset();
+            } catch (SQLException | UnknownHostException ex) {
+                JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+                util.db.hindar(ex);
+            }
+        }has.setEnabled(false);
+        ea.setEnabled(false);
+    }//GEN-LAST:event_hasActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    try {
+        new entity.dao.DAOJejak(d).insert(new entity.Jejak(a.getAkun(), "Akan menambah aset baru", java.sql.Date.valueOf(LocalDate.now()),
+                java.sql.Time.valueOf(LocalTime.now()),java.net.InetAddress.getLocalHost().getHostAddress()));
+        new ui.operation.modal.addModal(d, a).setVisible(true);
+        this.setVisible(false);
+    } catch (SQLException | UnknownHostException ex) {
+        JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+        util.db.hindar(ex);
+    }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void eaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eaActionPerformed
+    try {
+        new entity.dao.DAOJejak(d).insert(new entity.Jejak(a.getAkun(), "Akan Mengubah aset "+aset.getKode(), java.sql.Date.valueOf(LocalDate.now()),
+                java.sql.Time.valueOf(LocalTime.now()),java.net.InetAddress.getLocalHost().getHostAddress()));
+        new ui.operation.modal.EditModal(d, a, aset).setVisible(true);
+        this.setVisible(false);
+    } catch (SQLException | UnknownHostException ex) {
+        JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+        util.db.hindar(ex);
+    }
+    }//GEN-LAST:event_eaActionPerformed
+
+    private void jaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jaItemStateChanged
+    try {
+        javax.swing.table.DefaultTableModel m=(javax.swing.table.DefaultTableModel) tblJejak.getModel();
+        for(int x=m.getRowCount()-1;x>=0;x--)m.removeRow(x);
+        if(!ja.getSelectedItem().equals("Pilih Satu :")&&ja.getSelectedItem()!=null&&tglJejak.getSelectedItem()!=null){
+            java.sql.PreparedStatement ps=d.getPS("select keg,jam,dari from jejak where akun=? and tgl=? order by jam desc");
+            ps.setString(1, ja.getItemAt(ja.getSelectedIndex()));ps.setDate(2, tglJejak.getItemAt(tglJejak.getSelectedIndex()));
+            java.sql.ResultSet rs=ps.executeQuery();
+            while(rs.next())m.addRow(new Object[]{rs.getString("keg"),rs.getTime("jam"),rs.getString("dari")});
+            rs.close();ps.close();
+        }
+    } catch (SQLException ex) {
+        Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
+    }
     }//GEN-LAST:event_jaItemStateChanged
 
+    private void tglJejakItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_tglJejakItemStateChanged
+        this.jaItemStateChanged(evt);
+    }//GEN-LAST:event_tglJejakItemStateChanged
+
     private void refresh() throws SQLException, InterruptedException {
-        a=new entity.Akun(a.getAkun(), d);if(!a.isSesi()&&a.isBlocked()&&a.isDeleted()&&!a.isRole()){
+        a=new entity.Akun(a.getAkun(), d);if(!a.isSesi()||a.isBlocked()||a.isDeleted()||!a.isRole()){
             JOptionPane.showMessageDialog(rootPane, "Good bye!");
             new Login(d).setVisible(true);
             this.setVisible(false);
         }jejak();
+        akun();
+        aset();
         Thread.sleep(5000);
     }
 
@@ -228,7 +508,15 @@ private entity.Akun a;
                 JOptionPane.showMessageDialog(rootPane, ex.getMessage());
                 util.db.hindar(ex);
             }
-        }else System.exit(0);
+        }else{
+            try {
+                new entity.dao.DAOJejak(d).insert(new entity.Jejak(a.getAkun(), "Menghentikan Program", java.sql.Date.valueOf(LocalDate.now()),
+                        java.sql.Time.valueOf(LocalTime.now()),java.net.InetAddress.getLocalHost().getHostAddress()));
+                d.close();System.exit(0);
+            } catch (SQLException | UnknownHostException ex) {
+                JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+            }
+        }
     }
 
     private void metu() throws UnknownHostException, SQLException {
@@ -241,13 +529,25 @@ private entity.Akun a;
                 this.setVisible(false);
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton ea;
+    private javax.swing.JButton eak;
+    private javax.swing.JButton hak;
+    private javax.swing.JButton has;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JToolBar jToolBar2;
+    private javax.swing.JToolBar jToolBar3;
     private javax.swing.JComboBox<String> ja;
+    private javax.swing.JTable tblAkun;
+    private javax.swing.JTable tblAset;
     private javax.swing.JTable tblJejak;
     private javax.swing.JComboBox<java.sql.Date> tglJejak;
     // End of variables declaration//GEN-END:variables
@@ -256,12 +556,30 @@ private entity.Akun a;
         if(!"Pilih Satu :".equals(ja.getSelectedItem())&&null!=ja.getSelectedItem()){
             javax.swing.table.DefaultTableModel m=(javax.swing.table.DefaultTableModel) tblJejak.getModel();
             for(int x=m.getRowCount()-1;x>=0;x--)m.removeRow(x);
+            java.sql.PreparedStatement ps=d.getPS("select keg,jam,dari from jejak where akun=? and tgl=? order by jam");
+            ps.setString(1, ja.getItemAt(ja.getSelectedIndex()));ps.setDate(2, tglJejak.getItemAt(tglJejak.getSelectedIndex()));
+            java.sql.ResultSet rs=ps.executeQuery();while(rs.next())m.addRow(new Object[]{rs.getString("keg"),rs.getTime("jam"),rs.getString("dari")});
+            rs.close();ps.close();
         }else{
-            ja.removeAllItems();
-            ja.addItem("Pilih Satu :");
-            for(entity.Akun sa:new entity.dao.DAOAkun(d).getData())ja.addItem(sa.getAkun());
+            for(int x=1;x<ja.getItemCount();x++)ja.removeItemAt(x);
             javax.swing.table.DefaultTableModel m=(javax.swing.table.DefaultTableModel) tblJejak.getModel();
             for(int x=m.getRowCount()-1;x>=0;x--)m.removeRow(x);
+            java.sql.ResultSet rs=d.keluar("select akun from akun");
+            while(rs.next())ja.addItem(rs.getString("akun"));rs.close();
         }
+    }
+
+    private void akun() throws SQLException {
+        javax.swing.table.DefaultTableModel m=(javax.swing.table.DefaultTableModel) tblAkun.getModel();
+        for(int x=m.getRowCount()-1;x>=0;x--)m.removeRow(x);
+        for(entity.Akun ak:new entity.dao.DAOAkun(d).getData())
+            m.addRow(new Object[]{ak.getAkun(),ak.getNama(),ak.getAlamat(),ak.getJk(),ak.isRole(),ak.isBlocked(),ak.isSesi()});
+    }
+
+    private void aset() throws SQLException {
+        javax.swing.table.DefaultTableModel m=(javax.swing.table.DefaultTableModel) tblAset.getModel();
+        for(int x=m.getRowCount()-1;x>=0;x--)m.removeRow(x);
+        for(entity.Aset as:new entity.dao.DAOAset(d).getData())
+            m.addRow(new Object[]{as.getKode(),as.getKet(),as.getJum(),as.getTipe()});
     }
 }

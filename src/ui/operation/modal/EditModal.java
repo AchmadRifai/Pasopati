@@ -196,6 +196,7 @@ private entity.Aset aset;
         if(Long.parseLong(""+jum.getValue())!=aset.getJum())writeTrans();
         changer();
         if(!a.isSesi()&&a.isRole())new akutansi.InitSaldo(d, a).setVisible(true);
+        else if(a.isSesi()&&a.isRole())new ui.Admin(d, a).setVisible(true);
         this.setVisible(false);
     } catch (SQLException | UnknownHostException ex) {
         JOptionPane.showMessageDialog(rootPane, ex.getMessage());
