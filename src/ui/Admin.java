@@ -20,6 +20,7 @@ private util.db d;
 private entity.Akun a,sa;
 private entity.Aset aset;
 private entity.Hutang hutang;
+private entity.Menyicil menyicil;
     /**
      * Creates new form Admin
      */
@@ -53,6 +54,10 @@ private entity.Hutang hutang;
         jButton4 = new javax.swing.JButton();
         uh = new javax.swing.JButton();
         dh = new javax.swing.JButton();
+        jToolBar5 = new javax.swing.JToolBar();
+        jButton5 = new javax.swing.JButton();
+        em = new javax.swing.JButton();
+        hm = new javax.swing.JButton();
         jTabbedPane2 = new javax.swing.JTabbedPane();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblAkun = new javax.swing.JTable();
@@ -65,6 +70,10 @@ private entity.Hutang hutang;
         tblJejak = new javax.swing.JTable();
         jScrollPane4 = new javax.swing.JScrollPane();
         tblHutang = new javax.swing.JTable();
+        jPanel2 = new javax.swing.JPanel();
+        sh = new javax.swing.JComboBox<>();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        tblMenyicil = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Admin Dasboard For ");
@@ -211,6 +220,45 @@ private entity.Hutang hutang;
 
         jTabbedPane1.addTab("HUTANG", jToolBar4);
 
+        jToolBar5.setRollover(true);
+
+        jButton5.setText("ADD");
+        jButton5.setFocusable(false);
+        jButton5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton5.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+        jToolBar5.add(jButton5);
+
+        em.setText("EDIT");
+        em.setEnabled(false);
+        em.setFocusable(false);
+        em.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        em.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        em.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                emActionPerformed(evt);
+            }
+        });
+        jToolBar5.add(em);
+
+        hm.setText("HAPUS");
+        hm.setEnabled(false);
+        hm.setFocusable(false);
+        hm.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        hm.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        hm.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                hmActionPerformed(evt);
+            }
+        });
+        jToolBar5.add(hm);
+
+        jTabbedPane1.addTab("MENYICIL", jToolBar5);
+
         tblAkun.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -335,7 +383,7 @@ private entity.Hutang hutang;
                     .addComponent(ja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tglJejak, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 334, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 433, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("JEJAK", jPanel1);
@@ -345,14 +393,14 @@ private entity.Hutang hutang;
 
             },
             new String [] {
-                "KODE", "KE", "JUMLAH", "TANGGAL", "KETERANGAN", "BUNGA"
+                "KODE", "KE", "JUMLAH", "TANGGAL", "KETERANGAN", "BUNGA", "LUNAS"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Long.class, java.lang.Object.class, java.lang.String.class, java.lang.Integer.class
+                java.lang.String.class, java.lang.String.class, java.lang.Long.class, java.lang.Object.class, java.lang.String.class, java.lang.Integer.class, java.lang.Boolean.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -363,14 +411,76 @@ private entity.Hutang hutang;
                 return canEdit [columnIndex];
             }
         });
+        tblHutang.setColumnSelectionAllowed(true);
         tblHutang.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblHutangMouseClicked(evt);
             }
         });
         jScrollPane4.setViewportView(tblHutang);
+        tblHutang.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
         jTabbedPane2.addTab("HUTANG", jScrollPane4);
+
+        sh.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pilih Satu :" }));
+        sh.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                shItemStateChanged(evt);
+            }
+        });
+
+        tblMenyicil.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "KODE", "SUMBER", "TANGGAL", "JUMLAH"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Long.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblMenyicil.setColumnSelectionAllowed(true);
+        tblMenyicil.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblMenyicilMouseClicked(evt);
+            }
+        });
+        jScrollPane5.setViewportView(tblMenyicil);
+        tblMenyicil.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(sh, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1132, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(sh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 433, Short.MAX_VALUE))
+        );
+
+        jTabbedPane2.addTab("MENYICIL", jPanel2);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -389,7 +499,7 @@ private entity.Hutang hutang;
                 .addContainerGap()
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+                .addComponent(jTabbedPane2)
                 .addContainerGap())
         );
 
@@ -429,10 +539,6 @@ private entity.Hutang hutang;
         }else takok();
     }//GEN-LAST:event_formWindowClosing
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        this.formWindowClosing(null);
-    }//GEN-LAST:event_jButton1ActionPerformed
-
     private void tblAkunMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblAkunMouseClicked
         int s=tblAkun.getSelectedRow();
         boolean b=tblAkun.isRowSelected(s);if(b){
@@ -447,46 +553,6 @@ private entity.Hutang hutang;
         }
     }//GEN-LAST:event_tblAkunMouseClicked
 
-    private void hakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hakActionPerformed
-        int x=JOptionPane.showConfirmDialog(rootPane, "Apa anda ingin menghapus "+sa.getAkun()+"?", "HAPUS?", JOptionPane.YES_NO_OPTION);
-        if(x==JOptionPane.YES_OPTION){
-            try {
-                new entity.dao.DAOJejak(d).insert(new entity.Jejak(a.getAkun(), "Menghapus akun "+sa.getAkun(), java.sql.Date.valueOf(LocalDate.now()),
-                        java.sql.Time.valueOf(LocalTime.now()),java.net.InetAddress.getLocalHost().getHostAddress()));
-                new entity.dao.DAOAkun(d).delete(sa);
-                jejak();
-                akun();
-            } catch (SQLException | UnknownHostException ex) {
-                JOptionPane.showMessageDialog(rootPane, ex.getMessage());
-                util.db.hindar(ex);
-            }
-        }hak.setEnabled(false);eak.setEnabled(false);
-    }//GEN-LAST:event_hakActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-    try {
-        new entity.dao.DAOJejak(d).insert(new entity.Jejak(a.getAkun(), "Akan menambah AKun baru", java.sql.Date.valueOf(LocalDate.now()),
-                java.sql.Time.valueOf(LocalTime.now()),java.net.InetAddress.getLocalHost().getHostAddress()));
-        new ui.operation.akun.AddAkun(a, d).setVisible(true);
-        this.setVisible(false);
-    } catch (SQLException | UnknownHostException ex) {
-        JOptionPane.showMessageDialog(rootPane, ex.getMessage());
-        util.db.hindar(ex);
-    }
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void eakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eakActionPerformed
-    try {
-        new entity.dao.DAOJejak(d).insert(new entity.Jejak(a.getAkun(), "Akan mengubah "+sa.getAkun(), java.sql.Date.valueOf(LocalDate.now()),
-                java.sql.Time.valueOf(LocalTime.now()),java.net.InetAddress.getLocalHost().getHostAddress()));
-        new ui.operation.akun.EditAkun(d, a, sa).setVisible(true);
-        this.setVisible(false);
-    } catch (SQLException | UnknownHostException ex) {
-        JOptionPane.showMessageDialog(rootPane, ex.getMessage());
-        util.db.hindar(ex);
-    }
-    }//GEN-LAST:event_eakActionPerformed
-
     private void tblAsetMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblAsetMouseClicked
         int x=tblAset.getSelectedRow();
         boolean b=tblAset.isRowSelected(x);if(b){
@@ -500,46 +566,6 @@ private entity.Hutang hutang;
             }
         }
     }//GEN-LAST:event_tblAsetMouseClicked
-
-    private void hasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hasActionPerformed
-        int x=JOptionPane.showConfirmDialog(rootPane, "Apa anda ingin menghapus aset "+aset.getKode()+"?", "HAPUS?", JOptionPane.YES_NO_OPTION);
-        if(x==JOptionPane.YES_OPTION){
-            try {
-                new entity.dao.DAOAset(d).delete(aset);
-                new entity.dao.DAOJejak(d).insert(new entity.Jejak(a.getAkun(), "Telah menghapus aset "+aset.getKode(),java.sql.Date.valueOf(LocalDate.now()),
-                        java.sql.Time.valueOf(LocalTime.now()),java.net.InetAddress.getLocalHost().getHostAddress()));
-                aset();
-            } catch (SQLException | UnknownHostException ex) {
-                JOptionPane.showMessageDialog(rootPane, ex.getMessage());
-                util.db.hindar(ex);
-            }
-        }has.setEnabled(false);
-        ea.setEnabled(false);
-    }//GEN-LAST:event_hasActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-    try {
-        new entity.dao.DAOJejak(d).insert(new entity.Jejak(a.getAkun(), "Akan menambah aset baru", java.sql.Date.valueOf(LocalDate.now()),
-                java.sql.Time.valueOf(LocalTime.now()),java.net.InetAddress.getLocalHost().getHostAddress()));
-        new ui.operation.modal.addModal(d, a).setVisible(true);
-        this.setVisible(false);
-    } catch (SQLException | UnknownHostException ex) {
-        JOptionPane.showMessageDialog(rootPane, ex.getMessage());
-        util.db.hindar(ex);
-    }
-    }//GEN-LAST:event_jButton3ActionPerformed
-
-    private void eaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eaActionPerformed
-    try {
-        new entity.dao.DAOJejak(d).insert(new entity.Jejak(a.getAkun(), "Akan Mengubah aset "+aset.getKode(), java.sql.Date.valueOf(LocalDate.now()),
-                java.sql.Time.valueOf(LocalTime.now()),java.net.InetAddress.getLocalHost().getHostAddress()));
-        new ui.operation.modal.EditModal(d, a, aset).setVisible(true);
-        this.setVisible(false);
-    } catch (SQLException | UnknownHostException ex) {
-        JOptionPane.showMessageDialog(rootPane, ex.getMessage());
-        util.db.hindar(ex);
-    }
-    }//GEN-LAST:event_eaActionPerformed
 
     private void jaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jaItemStateChanged
     try {
@@ -562,18 +588,6 @@ private entity.Hutang hutang;
         this.jaItemStateChanged(evt);
     }//GEN-LAST:event_tglJejakItemStateChanged
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-    try {
-        new entity.dao.DAOJejak(d).insert(new entity.Jejak(a.getAkun(), "Akan menambah Hutang", java.sql.Date.valueOf(LocalDate.now()),
-                java.sql.Time.valueOf(LocalTime.now()),java.net.InetAddress.getLocalHost().getHostAddress()));
-        new ui.operation.hutang.Add(d, a).setVisible(true);
-        this.setVisible(false);
-    } catch (SQLException | UnknownHostException ex) {
-        JOptionPane.showMessageDialog(rootPane, ex.getMessage());
-        util.db.hindar(ex);
-    }
-    }//GEN-LAST:event_jButton4ActionPerformed
-
     private void tblHutangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblHutangMouseClicked
         int x=tblHutang.getSelectedRow();
         boolean b=tblHutang.isRowSelected(x);
@@ -587,14 +601,23 @@ private entity.Hutang hutang;
         }
     }//GEN-LAST:event_tblHutangMouseClicked
 
+    private void shItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_shItemStateChanged
+    try {
+        menyicil();
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+        util.db.hindar(ex);
+    }
+    }//GEN-LAST:event_shItemStateChanged
+
     private void dhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dhActionPerformed
         int x=JOptionPane.showConfirmDialog(rootPane, "Apa anda ingin menghapus hutang "+hutang.getKode()+"?", "HAPUS", JOptionPane.YES_NO_OPTION);
         if(x==JOptionPane.YES_OPTION)
-            try {
-                new entity.dao.DAOJejak(d).insert(new entity.Jejak(a.getAkun(), "Melunasi hutang "+hutang.getKode(), java.sql.Date.valueOf(LocalDate.now()),
-                        java.sql.Time.valueOf(LocalTime.now()),java.net.InetAddress.getLocalHost().getHostAddress()));
-                new entity.dao.DAOHutang(d).delete(hutang);
-                hutang();
+        try {
+            new entity.dao.DAOJejak(d).insert(new entity.Jejak(a.getAkun(), "Menghapus hutang "+hutang.getKode(), java.sql.Date.valueOf(LocalDate.now()),
+                java.sql.Time.valueOf(LocalTime.now()),java.net.InetAddress.getLocalHost().getHostAddress()));
+        new entity.dao.DAOHutang(d).delete(hutang);
+        hutang();
         } catch (SQLException | UnknownHostException ex) {
             JOptionPane.showMessageDialog(rootPane, ex.getMessage());
             util.db.hindar(ex);
@@ -603,14 +626,142 @@ private entity.Hutang hutang;
     }//GEN-LAST:event_dhActionPerformed
 
     private void uhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uhActionPerformed
+        try {
+            new entity.dao.DAOJejak(d).insert(new entity.Jejak(a.getAkun(), "Akan mengubah hutang "+hutang.getKode(), java.sql.Date.valueOf(LocalDate.now()),
+                java.sql.Time.valueOf(LocalTime.now()),java.net.InetAddress.getLocalHost().getHostAddress()));
+        new ui.operation.hutang.Edit(d, a, hutang).setVisible(true);
+        this.setVisible(false);
+        } catch (SQLException | UnknownHostException ex) {
+            JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+            util.db.hindar(ex);
+        }
+    }//GEN-LAST:event_uhActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        try {
+            new entity.dao.DAOJejak(d).insert(new entity.Jejak(a.getAkun(), "Akan menambah Hutang", java.sql.Date.valueOf(LocalDate.now()),
+                java.sql.Time.valueOf(LocalTime.now()),java.net.InetAddress.getLocalHost().getHostAddress()));
+        new ui.operation.hutang.Add(d, a).setVisible(true);
+        this.setVisible(false);
+        } catch (SQLException | UnknownHostException ex) {
+            JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+            util.db.hindar(ex);
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void hasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hasActionPerformed
+        int x=JOptionPane.showConfirmDialog(rootPane, "Apa anda ingin menghapus aset "+aset.getKode()+"?", "HAPUS?", JOptionPane.YES_NO_OPTION);
+        if(x==JOptionPane.YES_OPTION){
+            try {
+                new entity.dao.DAOAset(d).delete(aset);
+                new entity.dao.DAOJejak(d).insert(new entity.Jejak(a.getAkun(), "Telah menghapus aset "+aset.getKode(),java.sql.Date.valueOf(LocalDate.now()),
+                    java.sql.Time.valueOf(LocalTime.now()),java.net.InetAddress.getLocalHost().getHostAddress()));
+            aset();
+        } catch (SQLException | UnknownHostException ex) {
+            JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+            util.db.hindar(ex);
+        }
+        }has.setEnabled(false);
+        ea.setEnabled(false);
+    }//GEN-LAST:event_hasActionPerformed
+
+    private void eaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eaActionPerformed
+        try {
+            new entity.dao.DAOJejak(d).insert(new entity.Jejak(a.getAkun(), "Akan Mengubah aset "+aset.getKode(), java.sql.Date.valueOf(LocalDate.now()),
+                java.sql.Time.valueOf(LocalTime.now()),java.net.InetAddress.getLocalHost().getHostAddress()));
+        new ui.operation.modal.EditModal(d, a, aset).setVisible(true);
+        this.setVisible(false);
+        } catch (SQLException | UnknownHostException ex) {
+            JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+            util.db.hindar(ex);
+        }
+    }//GEN-LAST:event_eaActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        try {
+            new entity.dao.DAOJejak(d).insert(new entity.Jejak(a.getAkun(), "Akan menambah aset baru", java.sql.Date.valueOf(LocalDate.now()),
+                java.sql.Time.valueOf(LocalTime.now()),java.net.InetAddress.getLocalHost().getHostAddress()));
+        new ui.operation.modal.addModal(d, a).setVisible(true);
+        this.setVisible(false);
+        } catch (SQLException | UnknownHostException ex) {
+            JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+            util.db.hindar(ex);
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void hakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hakActionPerformed
+        int x=JOptionPane.showConfirmDialog(rootPane, "Apa anda ingin menghapus "+sa.getAkun()+"?", "HAPUS?", JOptionPane.YES_NO_OPTION);
+        if(x==JOptionPane.YES_OPTION){
+            try {
+                new entity.dao.DAOJejak(d).insert(new entity.Jejak(a.getAkun(), "Menghapus akun "+sa.getAkun(), java.sql.Date.valueOf(LocalDate.now()),
+                    java.sql.Time.valueOf(LocalTime.now()),java.net.InetAddress.getLocalHost().getHostAddress()));
+            new entity.dao.DAOAkun(d).delete(sa);
+            jejak();
+            akun();
+        } catch (SQLException | UnknownHostException ex) {
+            JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+            util.db.hindar(ex);
+        }
+        }hak.setEnabled(false);eak.setEnabled(false);
+    }//GEN-LAST:event_hakActionPerformed
+
+    private void eakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eakActionPerformed
+        try {
+            new entity.dao.DAOJejak(d).insert(new entity.Jejak(a.getAkun(), "Akan mengubah "+sa.getAkun(), java.sql.Date.valueOf(LocalDate.now()),
+                java.sql.Time.valueOf(LocalTime.now()),java.net.InetAddress.getLocalHost().getHostAddress()));
+        new ui.operation.akun.EditAkun(d, a, sa).setVisible(true);
+        this.setVisible(false);
+        } catch (SQLException | UnknownHostException ex) {
+            JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+            util.db.hindar(ex);
+        }
+    }//GEN-LAST:event_eakActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        try {
+            new entity.dao.DAOJejak(d).insert(new entity.Jejak(a.getAkun(), "Akan menambah AKun baru", java.sql.Date.valueOf(LocalDate.now()),
+                java.sql.Time.valueOf(LocalTime.now()),java.net.InetAddress.getLocalHost().getHostAddress()));
+        new ui.operation.akun.AddAkun(a, d).setVisible(true);
+        this.setVisible(false);
+        } catch (SQLException | UnknownHostException ex) {
+            JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+            util.db.hindar(ex);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        this.formWindowClosing(null);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
     try {
-        new entity.dao.DAOJejak(d).insert(new entity.Jejak(a.getAkun(), "Akan mengubah hutang "+hutang.getKode(), java.sql.Date.valueOf(LocalDate.now()),
+        new entity.dao.DAOJejak(d).insert(new entity.Jejak(a.getAkun(), "Akan menyicil hutang", java.sql.Date.valueOf(LocalDate.now()),
                 java.sql.Time.valueOf(LocalTime.now()),java.net.InetAddress.getLocalHost().getHostAddress()));
     } catch (SQLException | UnknownHostException ex) {
         JOptionPane.showMessageDialog(rootPane, ex.getMessage());
         util.db.hindar(ex);
     }
-    }//GEN-LAST:event_uhActionPerformed
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void emActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_emActionPerformed
+
+    private void hmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hmActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_hmActionPerformed
+
+    private void tblMenyicilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMenyicilMouseClicked
+        int x=tblMenyicil.getSelectedRow();
+        boolean b=tblMenyicil.isRowSelected(x);if(b)try {
+            menyicil=new entity.Menyicil(""+tblMenyicil.getValueAt(x, 0), d);
+            em.setEnabled(true);
+            hm.setEnabled(true);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+            util.db.hindar(ex);
+        }
+    }//GEN-LAST:event_tblMenyicilMouseClicked
 
     private void refresh() throws SQLException, InterruptedException {
         a=new entity.Akun(a.getAkun(), d);if(!a.isSesi()||a.isBlocked()||a.isDeleted()||!a.isRole()){
@@ -621,6 +772,7 @@ private entity.Hutang hutang;
         akun();
         aset();
         hutang();
+        menyicil();
         Thread.sleep(5000);
     }
 
@@ -660,28 +812,36 @@ private entity.Hutang hutang;
     private javax.swing.JButton dh;
     private javax.swing.JButton ea;
     private javax.swing.JButton eak;
+    private javax.swing.JButton em;
     private javax.swing.JButton hak;
     private javax.swing.JButton has;
+    private javax.swing.JButton hm;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JToolBar jToolBar2;
     private javax.swing.JToolBar jToolBar3;
     private javax.swing.JToolBar jToolBar4;
+    private javax.swing.JToolBar jToolBar5;
     private javax.swing.JComboBox<String> ja;
+    private javax.swing.JComboBox<String> sh;
     private javax.swing.JTable tblAkun;
     private javax.swing.JTable tblAset;
     private javax.swing.JTable tblHutang;
     private javax.swing.JTable tblJejak;
+    private javax.swing.JTable tblMenyicil;
     private javax.swing.JComboBox<java.sql.Date> tglJejak;
     private javax.swing.JButton uh;
     // End of variables declaration//GEN-END:variables
@@ -721,6 +881,17 @@ private entity.Hutang hutang;
         javax.swing.table.DefaultTableModel m=(javax.swing.table.DefaultTableModel) tblHutang.getModel();
         for(int x=m.getRowCount()-1;x>=0;x--)m.removeRow(x);
         for(entity.Hutang utang:new entity.dao.DAOHutang(d).getData())
-            m.addRow(new Object[]{utang.getKode(),utang.getKe(),utang.getJum(),utang.getTgl(),utang.getKet(),utang.getBunga()*100});
+            m.addRow(new Object[]{utang.getKode(),utang.getKe(),utang.getJum(),utang.getTgl(),utang.getKet(),utang.getBunga()*100,utang.isLunas()});
+    }
+
+    private void menyicil() throws SQLException {
+        javax.swing.table.DefaultTableModel m=(javax.swing.table.DefaultTableModel) tblMenyicil.getModel();
+        for(int x=m.getRowCount()-1;x>=0;x--)m.removeRow(x);
+        if(!"Pilih Satu :".equals(sh.getSelectedItem())){
+            java.sql.PreparedStatement ps=d.getPS("select kode,sumber,tgl,jum where hutang=?");ps.setString(1, sh.getItemAt(sh.getSelectedIndex()));
+            java.sql.ResultSet rs=ps.executeQuery();
+            while(rs.next())m.addRow(new Object[]{rs.getString("kode"),rs.getString("sumber"),rs.getDate("tgl"),rs.getLong("jum")});
+            rs.close();ps.close();
+        }
     }
 }

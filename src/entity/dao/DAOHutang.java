@@ -54,16 +54,15 @@ public class DAOHutang implements DAO<Hutang>{
 
     @Override
     public void delete(Hutang w) throws SQLException {
-        java.sql.PreparedStatement ps=d.getPS("update hutang set lunas=? where kode=?");
-        ps.setBoolean(1, true);
-        ps.setString(2, w.getKode());
+        java.sql.PreparedStatement ps=d.getPS("delete from hutang where kode=?");
+        ps.setString(1, w.getKode());
         ps.execute();
         ps.close();
     }
 
     @Override
     public void update(Hutang a, Hutang b) throws SQLException {
-        java.sql.PreparedStatement ps=d.getPS("update hutang set ke=?,akun=?,aset=?,jum=?,tgl=?,ket=?,bunga=? where kode=?");
+        java.sql.PreparedStatement ps=d.getPS("update hutang set ke=?,akun=?,aset=?,jum=?,tgl=?,ket=?,bunga=?,lunas=? where kode=?");
         ps.setString(1, b.getKe());
         ps.setString(2, b.getAkun());
         ps.setString(3, b.getAset());
@@ -71,7 +70,8 @@ public class DAOHutang implements DAO<Hutang>{
         ps.setDate(5, b.getTgl());
         ps.setString(6, b.getKet());
         ps.setFloat(7, b.getBunga());
-        ps.setString(8, a.getKode());
+        ps.setBoolean(8, b.isLunas());
+        ps.setString(9, a.getKode());
         ps.execute();
         ps.close();
     }
@@ -79,7 +79,7 @@ public class DAOHutang implements DAO<Hutang>{
     @Override
     public ArrayList<Hutang> getData() throws SQLException {
         ArrayList<Hutang>a=new ArrayList();
-        java.sql.ResultSet rs=d.keluar("select kode from hutang where not lunas");
+        java.sql.ResultSet rs=d.keluar("select kode from hutang");
         while(rs.next())a.add(new entity.Hutang(rs.getString("kode"), d));
         rs.close();
         return a;
